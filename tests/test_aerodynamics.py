@@ -3,7 +3,9 @@ Unit tests for aerodynamic geometry generation and coefficient modeling.
 """
 
 import math
+
 import pytest
+
 from aero_flight_dynamics.aerodynamics.airfoil import NACA4Airfoil
 from aero_flight_dynamics.aerodynamics.coefficients import AeroCoefficients
 

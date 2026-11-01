@@ -5,6 +5,7 @@ Flight dynamics numerical simulation engine using Runge-Kutta 4th order (RK4) in
 import math
 from dataclasses import dataclass, field
 from typing import List, Tuple
+
 from aero_flight_dynamics.atmosphere.us_standard_1976 import USStandardAtmosphere1976
 from aero_flight_dynamics.trajectory.state import FlightState
 from aero_flight_dynamics.trajectory.vehicle import PointMassVehicle

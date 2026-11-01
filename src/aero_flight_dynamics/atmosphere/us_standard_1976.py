@@ -6,6 +6,7 @@ with smooth asymptotic degradation for space/vacuum altitudes.
 
 import math
 from typing import List, Tuple
+
 from aero_flight_dynamics.atmosphere.models import AtmosphericState
 
 

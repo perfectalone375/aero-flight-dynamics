@@ -98,9 +98,7 @@ class NACA4Airfoil:
             theta = math.atan(dyc_dx)
             yt_c = self.thickness_distribution(x_c)
 
-            xu = (x_c - yt_c * math.sin(theta)) * self.chord_m
             yu = (yc_c + yt_c * math.cos(theta)) * self.chord_m
-            xl = (x_c + yt_c * math.sin(theta)) * self.chord_m
             yl = (yc_c - yt_c * math.cos(theta)) * self.chord_m
 
             x_coords.append(x_c * self.chord_m)

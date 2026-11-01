@@ -3,10 +3,11 @@ Pytest fixtures and test configurations for aero_flight_dynamics.
 """
 
 import pytest
-from aero_flight_dynamics.atmosphere.us_standard_1976 import USStandardAtmosphere1976
+
 from aero_flight_dynamics.aerodynamics.airfoil import NACA4Airfoil
 from aero_flight_dynamics.aerodynamics.coefficients import AeroCoefficients
-from aero_flight_dynamics.propulsion.solid_motor import SolidRocketMotor, MotorBurnProfile
+from aero_flight_dynamics.atmosphere.us_standard_1976 import USStandardAtmosphere1976
+from aero_flight_dynamics.propulsion.solid_motor import MotorBurnProfile, SolidRocketMotor
 from aero_flight_dynamics.trajectory.vehicle import PointMassVehicle
 
 

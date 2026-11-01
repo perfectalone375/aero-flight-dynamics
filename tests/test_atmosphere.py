@@ -3,8 +3,8 @@ Unit tests for the U.S. Standard Atmosphere (1976) model.
 Validated against published NOAA/NASA tables.
 """
 
-import math
 import pytest
+
 from aero_flight_dynamics.atmosphere.us_standard_1976 import USStandardAtmosphere1976
 
 

@@ -26,7 +26,6 @@ class AeroCoefficients:
         Calculates lift coefficient CL accounting for angle of attack, stall,
         and compressibility corrections.
         """
-        alpha_deg = math.degrees(alpha_rad)
         stall_rad = math.radians(self.alpha_stall_deg)
 
         # Baseline linear lift slope before stall

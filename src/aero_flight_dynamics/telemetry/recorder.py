@@ -4,8 +4,8 @@ Telemetry recording, analysis, CSV/JSON export, and flight plotting.
 
 import csv
 import json
-from dataclasses import dataclass, asdict
-from typing import Optional, List
+from dataclasses import asdict, dataclass
+
 from aero_flight_dynamics.trajectory.simulation import SimulationResult
 
 
@@ -141,7 +141,6 @@ class FlightRecorder:
 
             times = [s.time_s for s in self.result.history]
             altitudes_km = [s.z_m / 1000.0 for s in self.result.history]
-            speeds = [s.speed_m_s for s in self.result.history]
             machs = [s.mach for s in self.result.history]
             q_kpa = [s.dynamic_pressure_pa / 1000.0 for s in self.result.history]
             downrange_km = [s.x_m / 1000.0 for s in self.result.history]

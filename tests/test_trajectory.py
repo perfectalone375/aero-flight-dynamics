@@ -3,8 +3,9 @@ Integration tests for 3-DoF trajectory simulation and vehicle dynamics.
 """
 
 import pytest
-from aero_flight_dynamics.trajectory.vehicle import PointMassVehicle
+
 from aero_flight_dynamics.trajectory.simulation import FlightSimulator
+from aero_flight_dynamics.trajectory.vehicle import PointMassVehicle
 
 
 def test_vehicle_mass_tracking(standard_vehicle: PointMassVehicle):

@@ -4,6 +4,7 @@ Point-mass vehicle model combining structural, aerodynamic, and propulsive param
 
 from dataclasses import dataclass, field
 from typing import Optional
+
 from aero_flight_dynamics.aerodynamics.coefficients import AeroCoefficients
 from aero_flight_dynamics.propulsion.solid_motor import SolidRocketMotor
 

@@ -3,7 +3,8 @@ Unit tests for solid rocket motor propulsion dynamics.
 """
 
 import pytest
-from aero_flight_dynamics.propulsion.solid_motor import SolidRocketMotor, MotorBurnProfile
+
+from aero_flight_dynamics.propulsion.solid_motor import MotorBurnProfile, SolidRocketMotor
 
 
 def test_motor_mass_depletion(standard_motor: SolidRocketMotor):

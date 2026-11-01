@@ -4,10 +4,10 @@ Unit tests for telemetry recorder, CSV/JSON exporters, and summary reporting.
 
 import json
 import os
-import pytest
+
+from aero_flight_dynamics.telemetry.recorder import FlightRecorder
 from aero_flight_dynamics.trajectory.simulation import FlightSimulator
 from aero_flight_dynamics.trajectory.vehicle import PointMassVehicle
-from aero_flight_dynamics.telemetry.recorder import FlightRecorder
 
 
 def test_telemetry_exports(standard_vehicle: PointMassVehicle, tmp_path):

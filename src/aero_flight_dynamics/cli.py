@@ -4,13 +4,14 @@ Command Line Interface (CLI) for aero_flight_dynamics.
 
 import argparse
 import sys
-from aero_flight_dynamics.atmosphere.us_standard_1976 import USStandardAtmosphere1976
+
 from aero_flight_dynamics.aerodynamics.airfoil import NACA4Airfoil
 from aero_flight_dynamics.aerodynamics.coefficients import AeroCoefficients
-from aero_flight_dynamics.propulsion.solid_motor import SolidRocketMotor, MotorBurnProfile
-from aero_flight_dynamics.trajectory.vehicle import PointMassVehicle
-from aero_flight_dynamics.trajectory.simulation import FlightSimulator
+from aero_flight_dynamics.atmosphere.us_standard_1976 import USStandardAtmosphere1976
+from aero_flight_dynamics.propulsion.solid_motor import MotorBurnProfile, SolidRocketMotor
 from aero_flight_dynamics.telemetry.recorder import FlightRecorder
+from aero_flight_dynamics.trajectory.simulation import FlightSimulator
+from aero_flight_dynamics.trajectory.vehicle import PointMassVehicle
 
 
 def handle_atmosphere(args: argparse.Namespace) -> None:

@@ -3,7 +3,6 @@ Atmospheric state data structures and base interfaces.
 """
 
 from dataclasses import dataclass
-import math
 
 
 @dataclass(frozen=True)

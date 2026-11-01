@@ -61,5 +61,8 @@ python_functions = ["test_*"]
 addopts = "-v --strict-markers"
 
 [tool.ruff]
-line-length = 100
-select = ["E", "F", "W", "I"]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E501"]

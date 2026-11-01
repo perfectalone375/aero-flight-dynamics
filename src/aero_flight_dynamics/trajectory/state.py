@@ -2,8 +2,8 @@
 Flight state representation and coordinate systems.
 """
 
-from dataclasses import dataclass
 import math
+from dataclasses import dataclass
 
 
 @dataclass

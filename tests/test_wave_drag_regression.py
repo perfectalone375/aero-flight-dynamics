@@ -2,7 +2,6 @@
 Regression test suite for transonic drag divergence stability under high angles of attack.
 """
 
-import pytest
 from aero_flight_dynamics.aerodynamics.coefficients import AeroCoefficients
 
 
