@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  # Automated container test execution
+  test:
+    build:
+      context: .
+      target: test
+    volumes:
+      - ./tests:/app/tests
+      - ./src:/app/src
+    command: ["pytest", "-v", "tests/"]
+
+  # Run flight simulation in container
+  simulate:
+    build:
+      context: .
+      target: runtime
+    volumes:
+      - ./:/output
+    command:
+      - "simulate"
+      - "--name"
+      - "ContainerizedProbe"
+      - "--elevation"
+      - "85.0"
+      - "--csv"
+      - "/output/telemetry_docker.csv"
+      - "--json"
+      - "/output/telemetry_docker.json"

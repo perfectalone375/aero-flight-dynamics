@@ -71,6 +71,18 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 ```
 
+### Containerized Environment (Docker)
+
+You can also run tests or execute simulations in a reproducible isolated container:
+
+```bash
+# Run complete test suite in Docker
+docker compose run test
+
+# Run trajectory simulation in Docker
+docker compose run simulate
+```
+
 ---
 
 ## Command Line Interface (CLI)
