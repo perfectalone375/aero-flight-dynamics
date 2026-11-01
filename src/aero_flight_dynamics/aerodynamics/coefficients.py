@@ -68,14 +68,17 @@ class AeroCoefficients:
             return 0.0
 
         # Effective critical Mach decreases slightly with lift (Korn equation effect)
-        m_eff_crit = self.mach_critical - 0.1 * abs(cl)
+        # Saturated to prevent unphysical numerical divergence in high-alpha maneuvers
+        lift_shift = min(0.12, 0.1 * abs(cl))
+        m_eff_crit = max(0.55, self.mach_critical - lift_shift)
 
         if mach <= m_eff_crit:
             return 0.0
         elif mach <= 1.05:
             # Transonic drag rise
             delta_m = mach - m_eff_crit
-            return self.wave_drag_factor * (delta_m ** 4)
+            raw_cd = self.wave_drag_factor * (delta_m ** 4)
+            return min(0.40, raw_cd)
         elif mach <= 1.4:
             # Peak transonic wave drag
             peak_cd = self.wave_drag_factor * ((1.05 - m_eff_crit) ** 4)
