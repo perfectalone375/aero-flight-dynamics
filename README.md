@@ -3,10 +3,11 @@
 [![CI Build & Test Matrix](https://github.com/perfectalone375/aero-flight-dynamics/actions/workflows/ci.yml/badge.svg)](https://github.com/perfectalone375/aero-flight-dynamics/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![MCP Server](https://img.shields.io/badge/MCP-Model%20Context%20Protocol-8A2BE2.svg)](deliverables/mcp_integration_guide.md)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Tests Passing](https://img.shields.io/badge/tests-21%20passed-brightgreen.svg)](tests/)
+[![Tests Passing](https://img.shields.io/badge/tests-33%20passed-brightgreen.svg)](tests/)
 
-**`aero-flight-dynamics`** is an open-source, high-fidelity computational aerospace library in Python. It provides rigorous thermodynamic atmosphere models, compressible aerodynamics, solid rocket propulsion physics, 3-DoF Runge-Kutta 4th-order (RK4) trajectory integration, and automated flight telemetry analytics.
+**`aero-flight-dynamics`** is an open-source, high-fidelity computational aerospace library and **Model Context Protocol (MCP) Server** in Python. It provides rigorous thermodynamic atmosphere models, compressible aerodynamics, solid rocket propulsion physics, 3-DoF Runge-Kutta 4th-order (RK4) trajectory integration, dual-deployment parachute recovery dynamics, and automated flight telemetry analytics.
 
 ---
 
@@ -15,43 +16,45 @@
 ```mermaid
 graph TD
     A[Launch Parameters & Initial State] --> E[FlightSimulator: RK4 Engine]
-    B[USStandardAtmosphere1976] -->|Temperature, Pressure, Density, Sound Speed| E
-    C[AeroCoefficients & Airfoil Geometry] -->|Lift, Induced Drag, Transonic Wave Drag| E
+    B[USStandardAtmosphere1976 & WindModel] -->|Pressure, Density, Gust Vectors| E
+    C[AeroCoefficients & Airfoil Geometry] -->|Lift, Induced Drag, Wave Drag| E
     D[SolidRocketMotor & Burn Profile] -->|Thrust Vector, Mass Flow dm/dt| E
     E --> F[FlightState Time Series]
-    F --> G[FlightRecorder & Telemetry]
-    G --> H[CSV Data Export]
-    G --> I[JSON Telemetry Feed]
-    G --> J[Markdown Assessment Report]
-    G --> K[Matplotlib Flight Charts]
+    F --> G[DualRecoverySystem: Parachute Dynamics]
+    G --> H[Touchdown Terminal Velocity]
+    F --> I[FlightRecorder & Telemetry]
+    I --> J[CSV Data Export & JSON Telemetry]
+    I --> K[Matplotlib Flight Charts]
+    L[Claude Desktop / Cursor / AI Agents] <-->|JSON-RPC 2.0| M[MCP Server: aero_flight_dynamics.mcp]
 ```
 
 ---
 
 ## Core Capabilities
 
-### 1. 1976 U.S. Standard Atmosphere Model
+### 1. Model Context Protocol (MCP) Server
+* Exposes live aerospace dynamics tools directly to AI coding assistants (**Claude Desktop**, **Cursor**, **Windsurf**, and **Antigravity**).
+* Provides automated tools for 3-DoF trajectory simulation, 1976 standard atmosphere calculations, NACA airfoil evaluation, and parachute landing velocity estimates.
+* See [deliverables/mcp_integration_guide.md](deliverables/mcp_integration_guide.md) for quick setup.
+
+### 2. 1976 U.S. Standard Atmosphere & Wind Shear Model
 * Exact implementation of the 7-layer atmospheric model up to 86,000 meters geopotential altitude.
-* Evaluates temperature lapse rates, hydrostatic pressure equations, density $\rho = P / (R \cdot T)$, speed of sound $a = \sqrt{\gamma R T}$, and dynamic viscosity $\mu$ via Sutherland's empirical formula.
-* Asymptotic safe vacuum extension for orbital and space boundary altitudes.
+* Evaluates hydrostatic pressure, temperature lapse rates, density, sound speed, and Sutherland dynamic viscosity.
+* MIL-F-8785C compliant boundary layer wind shear and "1 - cosine" discrete atmospheric gust models.
 
-### 2. Compressible Aerodynamics & Transonic Wave Drag
-* **Airfoil Modeling:** NACA 4-digit parametric airfoil geometry generation (mean camber line, thickness distribution, theoretical lift curve slope, and zero-lift angle).
-* **Compressibility Corrections:** Prandtl-Glauert subsonic compressibility correction:
-  $$C_L = \frac{C_{L0}}{\sqrt{1 - M^2}}$$
-* **Wave Drag Divergence:** Non-linear transonic drag rise modeling above critical Mach $M_{cr}$ via Lock/Korn formulations.
-* **Induced Drag:** Finite-wing vortex-induced drag:
-  $$C_{Di} = \frac{C_L^2}{\pi \cdot AR \cdot e}$$
+### 3. Compressible Aerodynamics & Transonic Wave Drag
+* **Airfoil Modeling:** NACA 4-digit parametric airfoil geometry generator (mean camber line, thickness distribution, theoretical lift curve slope).
+* **Compressibility Corrections:** Prandtl-Glauert subsonic compressibility correction ($C_L = C_{L0} / \sqrt{1 - M^2}$).
+* **Wave Drag Divergence:** Transonic drag rise modeling with non-linear saturation clamp ($C_{D,\text{wave}} \le 0.40$).
 
-### 3. Solid Rocket Propulsion
+### 4. Propulsion & Parachute Recovery Dynamics
 * Time-dependent grain burn profiles: `NEUTRAL`, `PROGRESSIVE`, `REGRESSIVE`, and `BOOST_SUSTAIN`.
-* Dynamic mass depletion ($dm/dt$) and altitude-dependent specific impulse ($I_{sp}$) compensation between sea-level and vacuum nozzle expansion.
+* Two-stage dual recovery system: high-altitude drogue chute deployment at apogee, followed by low-altitude main canopy inflation for safe touchdown ($v_t < 7\text{ m/s}$).
 
-### 4. 3-DoF Numerical Trajectory Simulation (RK4)
-* 4th-order Runge-Kutta numerical integration for stable, accurate trajectory prediction.
-* Accounts for variable gravity gradient $g(z) = g_0 \left(\frac{R_E}{R_E + z}\right)^2$, aerodynamic lift and drag vectors, and vehicle mass loss.
+### 5. 3-DoF Numerical Trajectory Simulation (RK4)
+* 4th-order Runge-Kutta numerical integration tracking downrange, crossrange, altitude, velocity vectors, acceleration, Mach number, and Max-Q dynamic pressure.
 
-### 5. AI Benchmark Task Suite (SWE-bench Standard)
+### 6. AI Benchmark Task Suite (SWE-bench Standard)
 * Includes complete scenario specifications under `benchmarks/` designed for frontier AI coding model evaluation.
 * Features reproducible `Fail-to-Pass` regression tests and golden reference patch solutions.
 

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thirupati Gopi Naga Vignesh - Resume</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+      color: #222;
+      background-color: #f4f5f7;
+      font-size: 9.5pt;
+      line-height: 1.4;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 15px auto;
+      background: #ffffff;
+      padding: 0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    @media print {
+      body {
+        background: transparent;
+      }
+      .page {
+        margin: 0;
+        box-shadow: none;
+        width: 100%;
+        min-height: 100vh;
+      }
+    }
+
+    /* Header styling */
+    .header {
+      background-color: #122533;
+      color: #ffffff;
+      padding: 24px 32px 18px 32px;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .header-name {
+      font-size: 19pt;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    .header-title {
+      font-size: 11pt;
+      color: #55b2e6;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      row-gap: 5px;
+      font-size: 8.5pt;
+      color: #cfd9e0;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contact-item a {
+      color: #cfd9e0;
+      text-decoration: none;
+    }
+
+    .contact-item a:hover {
+      text-decoration: underline;
+      color: #ffffff;
+    }
+
+    /* Main content container */
+    .content {
+      padding: 20px 32px;
+      flex-grow: 1;
+    }
+
+    .section-title {
+      font-size: 10pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #122533;
+      border-bottom: 1.5px solid #122533;
+      padding-bottom: 3px;
+      margin-top: 14px;
+      margin-bottom: 8px;
+    }
+
+    .section-title:first-of-type {
+      margin-top: 0;
+    }
+
+    .profile-text {
+      font-size: 8.8pt;
+      text-align: justify;
+      color: #333333;
+      line-height: 1.38;
+    }
+
+    /* Experience & Education entries */
+    .entry {
+      margin-bottom: 11px;
+    }
+
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2px;
+    }
+
+    .entry-title {
+      font-size: 9pt;
+      font-weight: 700;
+      color: #122533;
+    }
+
+    .entry-company {
+      font-weight: 500;
+      color: #2b4557;
+    }
+
+    .entry-date {
+      font-size: 8.5pt;
+      color: #555555;
+      font-weight: 500;
+      text-align: right;
+    }
+
+    .entry-location {
+      font-size: 8pt;
+      color: #777777;
+      text-align: right;
+    }
+
+    ul.bullet-list {
+      list-style-type: none;
+      padding-left: 0;
+      margin-top: 3px;
+    }
+
+    ul.bullet-list li {
+      position: relative;
+      padding-left: 14px;
+      font-size: 8.5pt;
+      color: #333333;
+      margin-bottom: 2.5px;
+      line-height: 1.35;
+      text-align: justify;
+    }
+
+    ul.bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      color: #122533;
+      font-size: 10pt;
+    }
+
+    /* Skills styling */
+    .skills-category {
+      margin-bottom: 6px;
+      font-size: 8.5pt;
+      line-height: 1.35;
+    }
+
+    .skills-label {
+      font-weight: 700;
+      color: #122533;
+    }
+
+    /* Project items */
+    .project-item {
+      margin-bottom: 7px;
+    }
+
+    .project-title {
+      font-size: 9pt;
+      font-weight: 700;
+      color: #122533;
+    }
+
+    .project-desc {
+      font-size: 8.5pt;
+      color: #333333;
+      line-height: 1.35;
+      text-align: justify;
+    }
+
+    /* Footer styling */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 32px 14px 32px;
+      font-size: 7.8pt;
+      color: #888888;
+      border-top: 1px solid #e0e0e0;
+      background: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1 -->
+  <div class="page">
+    <div>
+      <div class="header">
+        <div class="header-top">
+          <div class="header-name">THIRUPATI GOPI NAGA VIGNESH</div>
+          <div class="header-title">Aerospace & Computational Software Engineer</div>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-item">
+            <span>✉</span> <a href="mailto:gopinagavignesh375@gmail.com">gopinagavignesh375@gmail.com</a>
+          </div>
+          <div class="contact-item">
+            <span>📞</span> <span>+91 7013378520</span>
+          </div>
+          <div class="contact-item">
+            <span>📍</span> <span>Hyderabad, India</span>
+          </div>
+          <div class="contact-item">
+            <span>🔗</span> <a href="https://linkedin.com/in/vignesh375" target="_blank">linkedin.com/in/vignesh375</a>
+          </div>
+          <div class="contact-item">
+            <span>🐙</span> <a href="https://github.com/perfectalone375" target="_blank">github.com/perfectalone375</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- PROFILE -->
+        <div class="section-title">PROFILE</div>
+        <p class="profile-text">
+          Computational Aerospace Software Engineer and AI Evaluation Specialist with over 2 years of professional experience in scientific programming, trajectory dynamics, and AI code generation benchmarking. Skilled in Python, NumPy, SciPy, Pytest, Docker, and Git/GitHub CI/CD workflows. Experienced in developing high-fidelity mathematical models for flight dynamics, atmospheric thermodynamics, and numerical ODE solvers. Proven track record authoring SWE-bench style evaluation tasks, validating frontier AI coding models, and maintaining open-source engineering packages under MIT licenses.
+        </p>
+
+        <!-- PROFESSIONAL EXPERIENCE -->
+        <div class="section-title">PROFESSIONAL EXPERIENCE</div>
+
+        <!-- Open-Source & AI Task Engineering -->
+        <div class="entry">
+          <div class="entry-header">
+            <div>
+              <span class="entry-title">Freelance (Self-Employed)</span>, <span class="entry-company">Software Engineer & AI Evaluation Specialist</span>
+            </div>
+            <div>
+              <div class="entry-date">01/2026 – Present</div>
+              <div class="entry-location">Hyderabad, India</div>
+            </div>
+          </div>
+          <ul class="bullet-list">
+            <li>Designed and authored high-fidelity coding benchmark tasks to train and evaluate frontier AI models following SWE-bench evaluation methodology.</li>
+            <li>Created deterministic unit tests (fail-to-pass / pass-to-pass), realistic prompt problem descriptions, and minimal golden patches across scientific Python codebases.</li>
+            <li>Conducted AI model evaluation, code generation assessment, data annotation, and RLHF validation for technical engineering workloads.</li>
+            <li>Containerized test harnesses using Docker and automated CI execution to guarantee reproducible, sandboxed evaluation.</li>
+            <li>Founded and built Froscel, an AI-powered talent platform, leading architecture design, MVP development, and full-stack software delivery.</li>
+          </ul>
+        </div>
+
+        <!-- Azista Composites -->
+        <div class="entry">
+          <div class="entry-header">
+            <div>
+              <span class="entry-title">AZISTA COMPOSITES PRIVATE LIMITED</span>, <span class="entry-company">Design & Computational Engineer</span>
+            </div>
+            <div>
+              <div class="entry-date">05/2024 – 01/2026</div>
+              <div class="entry-location">Hyderabad, India</div>
+            </div>
+          </div>
+          <ul class="bullet-list">
+            <li>Developed Python and Excel-based automation scripts for engineering workflows, reducing manual analysis time and eliminating numerical calculation errors.</li>
+            <li>Engineered structural validation, load-path simulation, and performance analysis algorithms for critical aerospace programs including BrahMos Battery Frames, Solar Panel Assemblies, and Navy Doors.</li>
+            <li>Conducted material testing data analysis using UTM instrumentation, developing automated data extraction and reduction scripts in Python.</li>
+            <li>Collaborated with cross-functional engineering teams to validate physical and digital twin models against strict defense manufacturing standards.</li>
+            <li>Prepared detailed parametric models and technical documentation ensuring full compliance with ASME and aerospace industry specifications.</li>
+          </ul>
+        </div>
+
+        <!-- DRDO -->
+        <div class="entry">
+          <div class="entry-header">
+            <div>
+              <span class="entry-title">Directorate of Special Projects, RCI Campus, DRDO</span>, <span class="entry-company">UAS & Satellite Systems Intern</span>
+            </div>
+            <div>
+              <div class="entry-date">02/2024 – 03/2024</div>
+              <div class="entry-location">Hyderabad, India</div>
+            </div>
+          </div>
+          <ul class="bullet-list">
+            <li>Contributed to the design, telemetry data logging, and subsystem integration of Quadsat UAV systems, supporting propulsion and sensor communication.</li>
+            <li>Assisted in satellite communication studies, orbital trajectory calculations, and signal analysis for Low Earth Orbit (LEO) satellite tracking.</li>
+            <li>Conducted system verification testing, data analysis, and technical documentation for remote sensing antenna arrays.</li>
+          </ul>
+        </div>
+
+        <!-- EDUCATION -->
+        <div class="section-title">EDUCATION</div>
+        <div class="entry" style="margin-bottom: 4px;">
+          <div class="entry-header">
+            <div><span class="entry-title">Bachelor of Technology</span>, Aeronautical Engineering & Computational Modeling</div>
+            <div class="entry-date">12/2020 – 03/2024</div>
+          </div>
+          <div style="font-size: 8.5pt; color: #444;">MLR Institute of Technology | Percentage: <strong>78%</strong></div>
+        </div>
+
+        <div class="entry" style="margin-bottom: 4px;">
+          <div class="entry-header">
+            <div><span class="entry-title">Intermediate Education (MPC)</span>, Master Junior College</div>
+            <div class="entry-date">06/2018 – 04/2020</div>
+          </div>
+          <div style="font-size: 8.5pt; color: #444;">Mathematics, Physics, Chemistry | Percentage: <strong>95%</strong></div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-header">
+            <div><span class="entry-title">Secondary Education</span>, SaiGiri School</div>
+            <div class="entry-date">06/2016 – 04/2018</div>
+          </div>
+          <div style="font-size: 8.5pt; color: #444;">CGPA: <strong>9.2</strong></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>THIRUPATI GOPI NAGA VIGNESH</span>
+      <span>gopinagavignesh375@gmail.com</span>
+      <span>1 / 2</span>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page">
+    <div>
+      <div class="content" style="padding-top: 24px;">
+        <!-- SKILLS -->
+        <div class="section-title">SKILLS</div>
+        <div class="skills-category">
+          <span class="skills-label">Programming & Software:</span> Python (NumPy, SciPy, Matplotlib), C++, SQL, Bash scripting, Git, GitHub Actions (CI/CD), Docker, Docker Compose, Pytest, Ruff linter, Test-Driven Development (TDD), Object-Oriented Programming (OOP)
+        </div>
+        <div class="skills-category">
+          <span class="skills-label">AI & Benchmark Engineering:</span> SWE-bench Task Authoring, LLM Code Generation Evaluation, Fail-to-Pass Test Harnesses, Regression Testing, Prompt Engineering, RLHF Annotation, Model Quality Assessment
+        </div>
+        <div class="skills-category">
+          <span class="skills-label">Computational & Aerospace:</span> 3-DoF / 6-DoF Trajectory Dynamics, 1976 U.S. Standard Atmosphere Modeling, Compressible Aerodynamics, Transonic Wave Drag Divergence, Runge-Kutta 4th Order (RK4) Numerical Solvers, Telemetry Processing
+        </div>
+        <div class="skills-category">
+          <span class="skills-label">CAD & Engineering Tools:</span> Siemens NX CAD | CATIA | SolidWorks | Fusion 360 | Autodesk Inventor | ANSYS | 3D Modeling | GD&T | ASME Y14.5 | Tolerance Analysis
+        </div>
+        <div class="skills-category">
+          <span class="skills-label">Professional:</span> Cross-Functional Engineering Collaboration | Code Review & Git PR Workflows | Root Cause Analysis | Technical Documentation | High-Reliability Software Systems
+        </div>
+
+        <!-- FEATURED PROJECTS -->
+        <div class="section-title">KEY PROJECTS</div>
+
+        <div class="project-item">
+          <div class="project-title">aero-flight-dynamics (Open Source — github.com/perfectalone375/aero-flight-dynamics)</div>
+          <div class="project-desc">
+            Architected an open-source 3-DoF flight dynamics and trajectory simulation library in Python under the MIT license. Implemented the exact 7-layer 1976 U.S. Standard Atmosphere model (0–86 km) with Sutherland's dynamic viscosity law, compressible aerodynamic drag/lift, solid rocket propulsion mass depletion, and RK4 numerical solver. Built an automated 22-test suite in Pytest, multi-version GitHub Actions CI matrix, and containerized Docker execution. Authored SWE-bench AI benchmark tasks with fail-to-pass regression verification.
+          </div>
+        </div>
+
+        <div class="project-item">
+          <div class="project-title">Multi-Purpose Autonomous UAV for Surveillance and Target Tracking</div>
+          <div class="project-desc">
+            Engineered an intelligent UAV platform incorporating real-time computer vision object detection and autonomous target tracking algorithms to support advanced surveillance and monitoring operations.
+          </div>
+        </div>
+
+        <div class="project-item">
+          <div class="project-title">Multi-Disciplinary UAV and Launch Surveillance Gliders</div>
+          <div class="project-desc">
+            Engineered a UAV-based surveillance platform with deployable gliders, developing flight mechanics models and telemetry analysis tools to optimize aerial coverage, situational awareness, and range.
+          </div>
+        </div>
+
+        <div class="project-item">
+          <div class="project-title">Design and Fabrication of Fixed Wing UAV</div>
+          <div class="project-desc">
+            Designed, analyzed, and manufactured an autonomous fixed-wing UAV, applying aerodynamic lift-to-drag optimization, computational flight stability analysis, and lightweight structural principles.
+          </div>
+        </div>
+
+        <div class="project-item">
+          <div class="project-title">BrahMos Battery Frame Structural Design & Numerical Verification</div>
+          <div class="project-desc">
+            Engineered a lightweight composite battery frame assembly for defense missile applications, performing stress analysis, structural load simulations, and mechanical validation for metallic-composite interfaces.
+          </div>
+        </div>
+
+        <div class="project-item">
+          <div class="project-title">Solar Panel Substrate for Aerospace Applications</div>
+          <div class="project-desc">
+            Engineered lightweight composite-metal sandwich panels, conducting structural rigidity and vibration simulations to optimize strength-to-weight ratio and long-term durability in aerospace environments.
+          </div>
+        </div>
+
+        <!-- CERTIFICATES -->
+        <div class="section-title">CERTIFICATES</div>
+        <ul class="bullet-list">
+          <li><strong>Aircraft Design:</strong> Certified by IIT Kanpur, NPTEL (01/2023 - 04/2023)</li>
+          <li><strong>Introduction to Airplane Performance:</strong> Certified by IIT Kanpur, NPTEL (07/2023 - 09/2023)</li>
+          <li><strong>Flight Fury:</strong> Certified by Cognizance IIT Roorkee (03/2023)</li>
+          <li><strong>Drone Development Challenge:</strong> Certified by SAE India (07/2023)</li>
+          <li><strong>Aeromodeling Event:</strong> Certified by Indian Institute of Aerospace Technology and Management (08/2017)</li>
+        </ul>
+
+        <!-- AWARDS & ORGANISATIONS -->
+        <div class="section-title">AWARDS & ORGANISATIONS</div>
+        <ul class="bullet-list">
+          <li><strong>Essay Writing Competition:</strong> 3rd Position organized by National Institute for Micro Small and Medium Enterprises.</li>
+          <li><strong>Society of Automotive Engineers (SAE) INDIA:</strong> Active Member (07/2023 – 07/2024).</li>
+        </ul>
+
+        <!-- LANGUAGES & INTERESTS -->
+        <div class="section-title">LANGUAGES & INTERESTS</div>
+        <div style="font-size: 8.5pt; color: #333; margin-top: 3px;">
+          <strong>Languages:</strong> English, Telugu, Hindi &nbsp;|&nbsp; 
+          <strong>Interests:</strong> Computational Simulation, Space Science, Computer Science, AI Benchmarking, Cricket
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>THIRUPATI GOPI NAGA VIGNESH</span>
+      <span>gopinagavignesh375@gmail.com</span>
+      <span>2 / 2</span>
+    </div>
+  </div>
+
+</body>
+</html>
