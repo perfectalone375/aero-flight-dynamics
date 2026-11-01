@@ -1,0 +1,22 @@
+diff --git a/src/aero_flight_dynamics/aerodynamics/coefficients.py b/src/aero_flight_dynamics/aerodynamics/coefficients.py
+index a1b2c3d..e4f5g6h 100644
+--- a/src/aero_flight_dynamics/aerodynamics/coefficients.py
++++ b/src/aero_flight_dynamics/aerodynamics/coefficients.py
+@@ -62,7 +62,8 @@ class AeroCoefficients:
+         if mach <= 0:
+             return 0.0
+ 
+-        # Effective critical Mach decreases slightly with lift (Korn equation effect)
+-        m_eff_crit = self.mach_critical - 0.1 * abs(cl)
++        # Effective critical Mach decreases slightly with lift with saturation limit
++        lift_shift = min(0.12, 0.1 * abs(cl))
++        m_eff_crit = max(0.55, self.mach_critical - lift_shift)
+ 
+         if mach <= m_eff_crit:
+             return 0.0
+@@ -70,7 +71,8 @@ class AeroCoefficients:
+             # Transonic drag rise
+             delta_m = mach - m_eff_crit
+-            return self.wave_drag_factor * (delta_m ** 4)
++            raw_cd = self.wave_drag_factor * (delta_m ** 4)
++            return min(0.38, raw_cd)
