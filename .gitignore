@@ -59,3 +59,11 @@ cover/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Workspace automation scripts
+*.py
+!src/**/*.py
+!tests/**/*.py
+!benchmarks/**/*.py
+resume.*
+Thirupati_*
