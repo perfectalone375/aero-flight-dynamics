@@ -10,6 +10,11 @@ from aero_flight_dynamics.atmosphere.us_standard_1976 import USStandardAtmospher
 from aero_flight_dynamics.propulsion.solid_motor import MotorBurnProfile, SolidRocketMotor
 from aero_flight_dynamics.telemetry.recorder import FlightRecorder, TelemetrySummary
 from aero_flight_dynamics.trajectory.simulation import FlightSimulator, SimulationResult
+from aero_flight_dynamics.trajectory.staging import (
+    RocketStage,
+    StagedRocketSimulator,
+    StagedSimulationResult,
+)
 from aero_flight_dynamics.trajectory.state import FlightState
 from aero_flight_dynamics.trajectory.vehicle import PointMassVehicle
 
@@ -28,6 +33,9 @@ __all__ = [
     "PointMassVehicle",
     "FlightSimulator",
     "SimulationResult",
+    "RocketStage",
+    "StagedRocketSimulator",
+    "StagedSimulationResult",
     "FlightRecorder",
     "TelemetrySummary",
 ]
