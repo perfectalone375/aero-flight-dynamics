@@ -14,6 +14,7 @@ from aero_flight_dynamics.aerodynamics.coefficients import AeroCoefficients
 from aero_flight_dynamics.propulsion.solid_motor import SolidRocketMotor, MotorBurnProfile
 from aero_flight_dynamics.trajectory.vehicle import PointMassVehicle
 from aero_flight_dynamics.trajectory.simulation import FlightSimulator
+from aero_flight_dynamics.trajectory.staging import RocketStage, StagedRocketSimulator
 from aero_flight_dynamics.telemetry.recorder import FlightRecorder
 from aero_flight_dynamics.recovery.parachute import DualRecoverySystem, Parachute
 
@@ -70,6 +71,21 @@ TOOLS = [
                 "drogue_diameter_m": {"type": "number", "description": "Drogue canopy diameter in meters", "default": 0.45}
             },
             "required": ["vehicle_mass_kg"]
+        }
+    },
+    {
+        "name": "simulate_staged_flight",
+        "description": "Simulate a multi-stage suborbital rocket with booster burnout, stage separation/jettison, and sustainer ignition.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "launch_elevation_deg": {"type": "number", "default": 85.0},
+                "payload_mass_kg": {"type": "number", "default": 15.0},
+                "booster_propellant_kg": {"type": "number", "default": 80.0},
+                "booster_burn_s": {"type": "number", "default": 5.0},
+                "sustainer_propellant_kg": {"type": "number", "default": 30.0},
+                "sustainer_burn_s": {"type": "number", "default": 6.0}
+            }
         }
     }
 ]
@@ -179,6 +195,54 @@ def handle_evaluate_parachute(args: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
+def handle_simulate_staged_flight(args: Dict[str, Any]) -> Dict[str, Any]:
+    elev = float(args.get("launch_elevation_deg", 85.0))
+    payload = float(args.get("payload_mass_kg", 15.0))
+    b_prop = float(args.get("booster_propellant_kg", 80.0))
+    b_burn = float(args.get("booster_burn_s", 5.0))
+    s_prop = float(args.get("sustainer_propellant_kg", 30.0))
+    s_burn = float(args.get("sustainer_burn_s", 6.0))
+
+    stages = [
+        RocketStage(
+            stage_number=1,
+            name="Stage 1 Booster",
+            dry_mass_kg=20.0,
+            propellant_mass_kg=b_prop,
+            burn_time_s=b_burn,
+            isp_sea_level_s=240.0,
+            isp_vacuum_s=270.0,
+            ignition_delay_s=0.0,
+            jettison_delay_s=0.5,
+        ),
+        RocketStage(
+            stage_number=2,
+            name="Stage 2 Sustainer",
+            dry_mass_kg=8.0,
+            propellant_mass_kg=s_prop,
+            burn_time_s=s_burn,
+            isp_sea_level_s=260.0,
+            isp_vacuum_s=295.0,
+            ignition_delay_s=1.0,
+            jettison_delay_s=0.0,
+        ),
+    ]
+
+    sim = StagedRocketSimulator(stages=stages, payload_mass_kg=payload)
+    res = sim.simulate(launch_elevation_deg=elev)
+
+    return {
+        "status": "success",
+        "vehicle_name": res.vehicle_name,
+        "apogee_altitude_km": round(res.apogee_altitude_m / 1000.0, 2),
+        "apogee_time_s": res.apogee_time_s,
+        "max_mach": res.max_mach,
+        "max_q_kpa": round(res.max_q_pa / 1000.0, 2),
+        "total_events": len(res.staging_events),
+        "staging_timeline": res.staging_events,
+    }
+
+
 def process_message(msg: Dict[str, Any]) -> Dict[str, Any]:
     method = msg.get("method")
     msg_id = msg.get("id")
@@ -218,6 +282,8 @@ def process_message(msg: Dict[str, Any]) -> Dict[str, Any]:
                 res = handle_evaluate_airfoil(tool_args)
             elif tool_name == "evaluate_parachute_recovery":
                 res = handle_evaluate_parachute(tool_args)
+            elif tool_name == "simulate_staged_flight":
+                res = handle_simulate_staged_flight(tool_args)
             else:
                 return {
                     "jsonrpc": "2.0",
