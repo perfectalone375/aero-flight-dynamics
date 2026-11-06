@@ -2,10 +2,10 @@
 
 [![CI Build & Test Matrix](https://github.com/perfectalone375/aero-flight-dynamics/actions/workflows/ci.yml/badge.svg)](https://github.com/perfectalone375/aero-flight-dynamics/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://www.python.org/downloads/)
 [![MCP Server](https://img.shields.io/badge/MCP-Model%20Context%20Protocol-8A2BE2.svg)](deliverables/mcp_integration_guide.md)
-[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Tests Passing](https://img.shields.io/badge/tests-33%20passed-brightgreen.svg)](tests/)
+[![Code Style: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+[![Tests Passing](https://img.shields.io/badge/tests-35%20passed-brightgreen.svg)](tests/)
 
 **`aero-flight-dynamics`** is an open-source, high-fidelity computational aerospace library and **Model Context Protocol (MCP) Server** in Python. It provides rigorous thermodynamic atmosphere models, compressible aerodynamics, solid rocket propulsion physics, 3-DoF Runge-Kutta 4th-order (RK4) trajectory integration, dual-deployment parachute recovery dynamics, and automated flight telemetry analytics.
 
@@ -51,10 +51,15 @@ graph TD
 * Time-dependent grain burn profiles: `NEUTRAL`, `PROGRESSIVE`, `REGRESSIVE`, and `BOOST_SUSTAIN`.
 * Two-stage dual recovery system: high-altitude drogue chute deployment at apogee, followed by low-altitude main canopy inflation for safe touchdown ($v_t < 7\text{ m/s}$).
 
-### 5. 3-DoF Numerical Trajectory Simulation (RK4)
+### 5. Multi-Stage Rocket Staging & Separation (`RocketStage` & `StagedRocketSimulator`)
+* Simulates multi-stage suborbital launch vehicles with discrete booster separation, stage casing jettison, and sustainer ignition.
+* Handles time-dependent mass depletion and discrete structural mass drops at separation events.
+* Exposed to AI agents via the `simulate_staged_flight` MCP tool.
+
+### 6. 3-DoF Numerical Trajectory Simulation (RK4)
 * 4th-order Runge-Kutta numerical integration tracking downrange, crossrange, altitude, velocity vectors, acceleration, Mach number, and Max-Q dynamic pressure.
 
-### 6. AI Benchmark Task Suite (SWE-bench Standard)
+### 7. AI Benchmark Task Suite (SWE-bench Standard)
 * Includes complete scenario specifications under `benchmarks/` designed for frontier AI coding model evaluation.
 * Features reproducible `Fail-to-Pass` regression tests and golden reference patch solutions.
 
