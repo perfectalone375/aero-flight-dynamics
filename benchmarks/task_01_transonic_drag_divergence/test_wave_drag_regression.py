@@ -3,7 +3,6 @@ Regression test case for AI training task: Transonic drag divergence stability.
 Demonstrates Fail-to-Pass verification pattern required for SWE-bench evaluation.
 """
 
-import pytest
 from aero_flight_dynamics.aerodynamics.coefficients import AeroCoefficients
 
 

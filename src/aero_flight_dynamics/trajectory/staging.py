@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import List, Tuple, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
 
 from aero_flight_dynamics.aerodynamics.coefficients import AeroCoefficients
 from aero_flight_dynamics.atmosphere.us_standard_1976 import USStandardAtmosphere1976
@@ -89,14 +89,12 @@ class StagedRocketSimulator:
         max_time_s: float = 300.0,
     ) -> StagedSimulationResult:
         elev_rad = math.radians(launch_elevation_deg)
-        x, y, z = 0.0, 0.0, 0.0
+        x, z = 0.0, 0.0
         vx = 0.0
-        vy = 0.0
         vz = 0.0
 
         t = 0.0
         pitch_rad = elev_rad
-        history: List[FlightState] = []
         events: List[Dict[str, Any]] = []
 
         # Staging timeline tracking
@@ -221,3 +219,4 @@ class StagedRocketSimulator:
             staging_events=events,
             final_flight_time_s=round(t, 2),
         )
+

@@ -57,3 +57,4 @@ def test_staged_simulator_runs_and_separates(two_stage_config):
 def test_invalid_stages():
     with pytest.raises(ValueError, match="at least one stage"):
         StagedRocketSimulator(stages=[])
+
