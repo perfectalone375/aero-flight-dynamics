@@ -12,6 +12,7 @@ from aero_flight_dynamics.trajectory.simulation import SimulationResult
 @dataclass
 class TelemetrySummary:
     """High-level performance summary of a flight test mission."""
+
     vehicle_name: str
     apogee_altitude_km: float
     apogee_time_s: float
@@ -54,34 +55,50 @@ class FlightRecorder:
             return
 
         fieldnames = [
-            "time_s", "x_m", "y_m", "z_m", "vx_m_s", "vy_m_s", "vz_m_s",
-            "speed_m_s", "mach", "dynamic_pressure_pa", "mass_kg",
-            "thrust_n", "drag_n", "lift_n", "ax_m_s2", "az_m_s2", "g_load"
+            "time_s",
+            "x_m",
+            "y_m",
+            "z_m",
+            "vx_m_s",
+            "vy_m_s",
+            "vz_m_s",
+            "speed_m_s",
+            "mach",
+            "dynamic_pressure_pa",
+            "mass_kg",
+            "thrust_n",
+            "drag_n",
+            "lift_n",
+            "ax_m_s2",
+            "az_m_s2",
+            "g_load",
         ]
 
         with open(filepath, mode="w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
             writer.writerow(fieldnames)
             for state in self.result.history:
-                writer.writerow([
-                    round(state.time_s, 4),
-                    round(state.x_m, 2),
-                    round(state.y_m, 2),
-                    round(state.z_m, 2),
-                    round(state.vx_m_s, 2),
-                    round(state.vy_m_s, 2),
-                    round(state.vz_m_s, 2),
-                    round(state.speed_m_s, 2),
-                    round(state.mach, 3),
-                    round(state.dynamic_pressure_pa, 1),
-                    round(state.mass_kg, 2),
-                    round(state.thrust_n, 1),
-                    round(state.drag_n, 1),
-                    round(state.lift_n, 1),
-                    round(state.ax_m_s2, 2),
-                    round(state.az_m_s2, 2),
-                    round(state.g_load, 2),
-                ])
+                writer.writerow(
+                    [
+                        round(state.time_s, 4),
+                        round(state.x_m, 2),
+                        round(state.y_m, 2),
+                        round(state.z_m, 2),
+                        round(state.vx_m_s, 2),
+                        round(state.vy_m_s, 2),
+                        round(state.vz_m_s, 2),
+                        round(state.speed_m_s, 2),
+                        round(state.mach, 3),
+                        round(state.dynamic_pressure_pa, 1),
+                        round(state.mass_kg, 2),
+                        round(state.thrust_n, 1),
+                        round(state.drag_n, 1),
+                        round(state.lift_n, 1),
+                        round(state.ax_m_s2, 2),
+                        round(state.az_m_s2, 2),
+                        round(state.g_load, 2),
+                    ]
+                )
 
     def export_json(self, filepath: str) -> None:
         """Export summary and sampled time-series data to JSON."""
@@ -136,6 +153,7 @@ class FlightRecorder:
         """
         try:
             import matplotlib
+
             matplotlib.use("Agg")  # Non-interactive backend
             import matplotlib.pyplot as plt
 

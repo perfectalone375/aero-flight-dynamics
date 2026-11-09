@@ -14,10 +14,11 @@ class PointMassVehicle:
     """
     Parametric flight vehicle model for trajectory simulation.
     """
+
     name: str = "Suborbital Research Vehicle"
-    structural_mass_kg: float = 25.0       # Vehicle body, payload, avionics mass
-    reference_area_m2: float = 0.0314      # Cross-sectional aerodynamic reference area (S)
-    characteristic_length_m: float = 2.5   # Characteristic length (chord or diameter)
+    structural_mass_kg: float = 25.0  # Vehicle body, payload, avionics mass
+    reference_area_m2: float = 0.0314  # Cross-sectional aerodynamic reference area (S)
+    characteristic_length_m: float = 2.5  # Characteristic length (chord or diameter)
     aerodynamics: AeroCoefficients = field(default_factory=AeroCoefficients)
     motor: Optional[SolidRocketMotor] = None
 

@@ -1,4 +1,3 @@
-
 """
 Multi-stage rocket trajectory dynamics, stage separation, and mass depletion models.
 """
@@ -17,6 +16,7 @@ from aero_flight_dynamics.trajectory.state import FlightState
 @dataclass
 class RocketStage:
     """Individual stage configuration for a multi-stage rocket vehicle."""
+
     stage_number: int
     name: str
     dry_mass_kg: float
@@ -24,8 +24,8 @@ class RocketStage:
     burn_time_s: float
     isp_sea_level_s: float
     isp_vacuum_s: float
-    ignition_delay_s: float = 0.0      # Coast time between previous burnout and ignition
-    jettison_delay_s: float = 0.5      # Time after burnout before dropping stage dry mass
+    ignition_delay_s: float = 0.0  # Coast time between previous burnout and ignition
+    jettison_delay_s: float = 0.5  # Time after burnout before dropping stage dry mass
 
     P_SEA_LEVEL: float = 101325.0
 
@@ -49,6 +49,7 @@ class RocketStage:
 @dataclass
 class StagedSimulationResult:
     """Telemetry and staging event record for a multi-stage flight."""
+
     vehicle_name: str
     apogee_altitude_m: float
     apogee_time_s: float
@@ -109,11 +110,13 @@ class StagedRocketSimulator:
         apogee_m = 0.0
         apogee_time_s = 0.0
 
-        events.append({
-            "time_s": 0.0,
-            "event": f"Ignition of Stage 1 ({self.stages[0].name})",
-            "altitude_m": 0.0,
-        })
+        events.append(
+            {
+                "time_s": 0.0,
+                "event": f"Ignition of Stage 1 ({self.stages[0].name})",
+                "altitude_m": 0.0,
+            }
+        )
 
         while t <= max_time_s:
             # Check staging logic
@@ -128,22 +131,26 @@ class StagedRocketSimulator:
                     thrust_total = curr_stage.thrust(burn_elapsed, atm.pressure_pa)
                 elif stage_state == "ignited":
                     stage_state = "burnout_coast"
-                    events.append({
-                        "time_s": round(t, 2),
-                        "event": f"Burnout of Stage {curr_stage.stage_number} ({curr_stage.name})",
-                        "altitude_m": round(z, 1),
-                        "velocity_m_s": round(math.sqrt(vx**2 + vz**2), 1),
-                    })
+                    events.append(
+                        {
+                            "time_s": round(t, 2),
+                            "event": f"Burnout of Stage {curr_stage.stage_number} ({curr_stage.name})",
+                            "altitude_m": round(z, 1),
+                            "velocity_m_s": round(math.sqrt(vx**2 + vz**2), 1),
+                        }
+                    )
 
                 # Check jettison & ignition of next stage
                 if burn_elapsed >= (curr_stage.burn_time_s + curr_stage.jettison_delay_s):
                     if curr_stage in active_stages:
                         active_stages.remove(curr_stage)
-                        events.append({
-                            "time_s": round(t, 2),
-                            "event": f"Jettison of Stage {curr_stage.stage_number} casing",
-                            "altitude_m": round(z, 1),
-                        })
+                        events.append(
+                            {
+                                "time_s": round(t, 2),
+                                "event": f"Jettison of Stage {curr_stage.stage_number} casing",
+                                "altitude_m": round(z, 1),
+                            }
+                        )
 
                     # Ignite next stage if delay met
                     next_idx = current_stage_idx + 1
@@ -153,12 +160,14 @@ class StagedRocketSimulator:
                             current_stage_idx = next_idx
                             stage_start_time = t
                             stage_state = "ignited"
-                            events.append({
-                                "time_s": round(t, 2),
-                                "event": f"Ignition of Stage {next_stage.stage_number} ({next_stage.name})",
-                                "altitude_m": round(z, 1),
-                                "velocity_m_s": round(math.sqrt(vx**2 + vz**2), 1),
-                            })
+                            events.append(
+                                {
+                                    "time_s": round(t, 2),
+                                    "event": f"Ignition of Stage {next_stage.stage_number} ({next_stage.name})",
+                                    "altitude_m": round(z, 1),
+                                    "velocity_m_s": round(math.sqrt(vx**2 + vz**2), 1),
+                                }
+                            )
 
             # Calculate vehicle total mass
             m_total = self.payload_mass_kg
@@ -220,4 +229,3 @@ class StagedRocketSimulator:
             staging_events=events,
             final_flight_time_s=round(t, 2),
         )
-

@@ -15,6 +15,11 @@ from aero_flight_dynamics.propulsion.solid_motor import SolidRocketMotor, MotorB
 from aero_flight_dynamics.trajectory.vehicle import PointMassVehicle
 from aero_flight_dynamics.trajectory.simulation import FlightSimulator
 from aero_flight_dynamics.trajectory.staging import RocketStage, StagedRocketSimulator
+from aero_flight_dynamics.trajectory.quaternions import (
+    Quaternion,
+    RigidBodyInertia,
+    AttitudeDynamicsSimulator,
+)
 from aero_flight_dynamics.telemetry.recorder import FlightRecorder
 from aero_flight_dynamics.recovery.parachute import DualRecoverySystem, Parachute
 
@@ -26,15 +31,31 @@ TOOLS = [
         "inputSchema": {
             "type": "object",
             "properties": {
-                "mission_name": {"type": "string", "description": "Mission or vehicle designation", "default": "AeroProbe"},
-                "launch_elevation_deg": {"type": "number", "description": "Launch rail angle in degrees (default: 85.0)", "default": 85.0},
-                "dry_mass_kg": {"type": "number", "description": "Vehicle structural/payload dry mass in kg", "default": 35.0},
+                "mission_name": {
+                    "type": "string",
+                    "description": "Mission or vehicle designation",
+                    "default": "AeroProbe",
+                },
+                "launch_elevation_deg": {
+                    "type": "number",
+                    "description": "Launch rail angle in degrees (default: 85.0)",
+                    "default": 85.0,
+                },
+                "dry_mass_kg": {
+                    "type": "number",
+                    "description": "Vehicle structural/payload dry mass in kg",
+                    "default": 35.0,
+                },
                 "propellant_mass_kg": {"type": "number", "description": "Solid propellant mass in kg", "default": 65.0},
                 "burn_time_s": {"type": "number", "description": "Motor burn duration in seconds", "default": 7.5},
-                "isp_sea_level_s": {"type": "number", "description": "Specific impulse at sea level (s)", "default": 230.0},
-                "cd0": {"type": "number", "description": "Zero-lift parasitic drag coefficient", "default": 0.25}
-            }
-        }
+                "isp_sea_level_s": {
+                    "type": "number",
+                    "description": "Specific impulse at sea level (s)",
+                    "default": 230.0,
+                },
+                "cd0": {"type": "number", "description": "Zero-lift parasitic drag coefficient", "default": 0.25},
+            },
+        },
     },
     {
         "name": "query_atmosphere",
@@ -44,8 +65,8 @@ TOOLS = [
             "properties": {
                 "altitude_m": {"type": "number", "description": "Geometric altitude in meters above sea level"}
             },
-            "required": ["altitude_m"]
-        }
+            "required": ["altitude_m"],
+        },
     },
     {
         "name": "evaluate_airfoil",
@@ -53,12 +74,15 @@ TOOLS = [
         "inputSchema": {
             "type": "object",
             "properties": {
-                "designation": {"type": "string", "description": "4-digit NACA designation (e.g. '0012', '2412', '4415')"},
+                "designation": {
+                    "type": "string",
+                    "description": "4-digit NACA designation (e.g. '0012', '2412', '4415')",
+                },
                 "alpha_deg": {"type": "number", "description": "Angle of attack in degrees", "default": 4.0},
-                "chord_m": {"type": "number", "description": "Chord length in meters", "default": 1.0}
+                "chord_m": {"type": "number", "description": "Chord length in meters", "default": 1.0},
             },
-            "required": ["designation"]
-        }
+            "required": ["designation"],
+        },
     },
     {
         "name": "evaluate_parachute_recovery",
@@ -68,10 +92,14 @@ TOOLS = [
             "properties": {
                 "vehicle_mass_kg": {"type": "number", "description": "Landing mass of vehicle in kg"},
                 "main_diameter_m": {"type": "number", "description": "Main canopy diameter in meters", "default": 2.0},
-                "drogue_diameter_m": {"type": "number", "description": "Drogue canopy diameter in meters", "default": 0.45}
+                "drogue_diameter_m": {
+                    "type": "number",
+                    "description": "Drogue canopy diameter in meters",
+                    "default": 0.45,
+                },
             },
-            "required": ["vehicle_mass_kg"]
-        }
+            "required": ["vehicle_mass_kg"],
+        },
     },
     {
         "name": "simulate_staged_flight",
@@ -84,10 +112,34 @@ TOOLS = [
                 "booster_propellant_kg": {"type": "number", "default": 80.0},
                 "booster_burn_s": {"type": "number", "default": 5.0},
                 "sustainer_propellant_kg": {"type": "number", "default": 30.0},
-                "sustainer_burn_s": {"type": "number", "default": 6.0}
-            }
-        }
-    }
+                "sustainer_burn_s": {"type": "number", "default": 6.0},
+            },
+        },
+    },
+    {
+        "name": "propagate_attitude_quaternions",
+        "description": "Simulate 6-DoF rigid body attitude dynamics using quaternions [q0,q1,q2,q3] and Euler equations to avoid gimbal lock.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "roll_deg": {"type": "number", "description": "Initial roll angle (phi) in degrees", "default": 0.0},
+                "pitch_deg": {
+                    "type": "number",
+                    "description": "Initial pitch angle (theta) in degrees",
+                    "default": 0.0,
+                },
+                "yaw_deg": {"type": "number", "description": "Initial yaw angle (psi) in degrees", "default": 0.0},
+                "p_deg_s": {"type": "number", "description": "Initial roll rate in deg/s", "default": 0.0},
+                "q_deg_s": {"type": "number", "description": "Initial pitch rate in deg/s", "default": 5.0},
+                "r_deg_s": {"type": "number", "description": "Initial yaw rate in deg/s", "default": 0.0},
+                "duration_s": {"type": "number", "description": "Simulation duration in seconds", "default": 5.0},
+                "dt_s": {"type": "number", "description": "Integration timestep", "default": 0.01},
+                "ixx": {"type": "number", "description": "Roll inertia (kg*m^2)", "default": 1.25},
+                "iyy": {"type": "number", "description": "Pitch inertia (kg*m^2)", "default": 45.0},
+                "izz": {"type": "number", "description": "Yaw inertia (kg*m^2)", "default": 45.0},
+            },
+        },
+    },
 ]
 
 
@@ -243,6 +295,59 @@ def handle_simulate_staged_flight(args: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
+def handle_propagate_attitude_quaternions(args: Dict[str, Any]) -> Dict[str, Any]:
+    roll = float(args.get("roll_deg", 0.0))
+    pitch = float(args.get("pitch_deg", 0.0))
+    yaw = float(args.get("yaw_deg", 0.0))
+    p = float(args.get("p_deg_s", 0.0))
+    q = float(args.get("q_deg_s", 5.0))
+    r = float(args.get("r_deg_s", 0.0))
+    duration = float(args.get("duration_s", 5.0))
+    dt = float(args.get("dt_s", 0.01))
+
+    ixx = float(args.get("ixx", 1.25))
+    iyy = float(args.get("iyy", 45.0))
+    izz = float(args.get("izz", 45.0))
+
+    q_init = Quaternion.from_euler_angles_deg(roll, pitch, yaw)
+    inertia = RigidBodyInertia(ixx=ixx, iyy=iyy, izz=izz)
+    sim = AttitudeDynamicsSimulator(inertia=inertia)
+    res = sim.simulate(
+        initial_quaternion=q_init,
+        initial_omega_deg_s=(p, q, r),
+        duration_s=duration,
+        dt=dt,
+    )
+
+    final_roll, final_pitch, final_yaw = res.final_state.quaternion.to_euler_angles_deg()
+    final_p, final_q, final_r = tuple(math.degrees(w) for w in res.final_state.omega_rad_s)
+
+    return {
+        "status": "success",
+        "initial_euler_deg": {"roll": roll, "pitch": pitch, "yaw": yaw},
+        "final_euler_deg": {
+            "roll": round(final_roll, 3),
+            "pitch": round(final_pitch, 3),
+            "yaw": round(final_yaw, 3),
+        },
+        "final_quaternion": {
+            "q0": round(res.final_state.quaternion.q0, 5),
+            "q1": round(res.final_state.quaternion.q1, 5),
+            "q2": round(res.final_state.quaternion.q2, 5),
+            "q3": round(res.final_state.quaternion.q3, 5),
+        },
+        "final_omega_deg_s": {
+            "p": round(final_p, 3),
+            "q": round(final_q, 3),
+            "r": round(final_r, 3),
+        },
+        "max_angular_rate_deg_s": round(res.max_angular_rate_deg_s, 3),
+        "initial_energy_j": round(res.initial_energy_j, 4),
+        "final_energy_j": round(res.final_energy_j, 4),
+        "simulation_steps": len(res.history),
+    }
+
+
 def process_message(msg: Dict[str, Any]) -> Dict[str, Any]:
     method = msg.get("method")
     msg_id = msg.get("id")
@@ -254,19 +359,12 @@ def process_message(msg: Dict[str, Any]) -> Dict[str, Any]:
             "result": {
                 "protocolVersion": "2024-11-05",
                 "capabilities": {"tools": {}},
-                "serverInfo": {
-                    "name": "aero-flight-dynamics-mcp",
-                    "version": "0.1.0"
-                }
-            }
+                "serverInfo": {"name": "aero-flight-dynamics-mcp", "version": "0.1.0"},
+            },
         }
 
     elif method == "tools/list":
-        return {
-            "jsonrpc": "2.0",
-            "id": msg_id,
-            "result": {"tools": TOOLS}
-        }
+        return {"jsonrpc": "2.0", "id": msg_id, "result": {"tools": TOOLS}}
 
     elif method == "tools/call":
         params = msg.get("params", {})
@@ -284,32 +382,24 @@ def process_message(msg: Dict[str, Any]) -> Dict[str, Any]:
                 res = handle_evaluate_parachute(tool_args)
             elif tool_name == "simulate_staged_flight":
                 res = handle_simulate_staged_flight(tool_args)
+            elif tool_name == "propagate_attitude_quaternions":
+                res = handle_propagate_attitude_quaternions(tool_args)
             else:
                 return {
                     "jsonrpc": "2.0",
                     "id": msg_id,
-                    "error": {"code": -32601, "message": f"Tool '{tool_name}' not found."}
+                    "error": {"code": -32601, "message": f"Tool '{tool_name}' not found."},
                 }
 
             return {
                 "jsonrpc": "2.0",
                 "id": msg_id,
-                "result": {
-                    "content": [{"type": "text", "text": json.dumps(res, indent=2)}]
-                }
+                "result": {"content": [{"type": "text", "text": json.dumps(res, indent=2)}]},
             }
         except Exception as e:
-            return {
-                "jsonrpc": "2.0",
-                "id": msg_id,
-                "error": {"code": -32000, "message": str(e)}
-            }
+            return {"jsonrpc": "2.0", "id": msg_id, "error": {"code": -32000, "message": str(e)}}
 
-    return {
-        "jsonrpc": "2.0",
-        "id": msg_id,
-        "error": {"code": -32601, "message": f"Method '{method}' not supported."}
-    }
+    return {"jsonrpc": "2.0", "id": msg_id, "error": {"code": -32601, "message": f"Method '{method}' not supported."}}
 
 
 def run_stdio_server() -> None:

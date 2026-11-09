@@ -14,6 +14,7 @@ from aero_flight_dynamics.trajectory.vehicle import PointMassVehicle
 @dataclass
 class SimulationResult:
     """Summary metrics and full trajectory state time history."""
+
     vehicle_name: str
     history: List[FlightState] = field(default_factory=list)
     apogee_m: float = 0.0
@@ -64,7 +65,7 @@ class FlightSimulator:
         Returns ((dx, dy, dz, dvx, dvy, dvz), diagnostics_dict).
         """
         x, y, z, vx, vy, vz = pos_vel
-        speed = math.sqrt(vx ** 2 + vy ** 2 + vz ** 2)
+        speed = math.sqrt(vx**2 + vy**2 + vz**2)
 
         # Atmosphere
         atm = self.atmosphere.compute(max(0.0, z))
@@ -102,8 +103,8 @@ class FlightSimulator:
             drag_z = 0.0
 
         # Lift acts normal to velocity in vertical plane
-        gamma = math.atan2(vz, max(1e-6, math.sqrt(vx ** 2 + vy ** 2)))
-        lift_x = -lift_mag * math.sin(gamma) * (vx / max(1e-6, math.sqrt(vx ** 2 + vy ** 2)))
+        gamma = math.atan2(vz, max(1e-6, math.sqrt(vx**2 + vy**2)))
+        lift_x = -lift_mag * math.sin(gamma) * (vx / max(1e-6, math.sqrt(vx**2 + vy**2)))
         lift_y = 0.0
         lift_z = lift_mag * math.cos(gamma)
 
@@ -230,10 +231,7 @@ class FlightSimulator:
                 break
 
             # Advance RK4 state
-            state = tuple(
-                state[i] + (dt / 6.0) * (k1[i] + 2.0 * k2[i] + 2.0 * k3[i] + k4[i])
-                for i in range(6)
-            )
+            state = tuple(state[i] + (dt / 6.0) * (k1[i] + 2.0 * k2[i] + 2.0 * k3[i] + k4[i]) for i in range(6))
             t += dt
 
         downrange = math.sqrt(history[-1].x_m ** 2 + history[-1].y_m ** 2)

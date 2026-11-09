@@ -10,6 +10,7 @@ class AtmosphericState:
     """
     Immutable representation of atmospheric properties at a given altitude.
     """
+
     altitude_m: float
     geopotential_altitude_m: float
     temperature_k: float
@@ -33,7 +34,7 @@ class AtmosphericState:
 
     def dynamic_pressure(self, velocity_m_s: float) -> float:
         """Compute dynamic pressure q = 0.5 * rho * v^2 in Pascals."""
-        return 0.5 * self.density_kg_m3 * (velocity_m_s ** 2)
+        return 0.5 * self.density_kg_m3 * (velocity_m_s**2)
 
     def reynolds_number(self, velocity_m_s: float, characteristic_length_m: float) -> float:
         """Compute Reynolds number Re = (rho * v * L) / mu."""

@@ -10,6 +10,7 @@ from enum import Enum
 
 class ParachuteState(Enum):
     """Deployment lifecycle state of a recovery parachute."""
+
     STOWED = "stowed"
     REEFED = "reefed"
     FULLY_DEPLOYED = "fully_deployed"
@@ -20,11 +21,12 @@ class Parachute:
     """
     Parametric model of a decelerator parachute.
     """
+
     name: str = "Main Canopy"
-    diameter_m: float = 1.8           # Effective canopy diameter
-    cd: float = 1.5                   # Drag coefficient of parachute canopy (hemispherical ~1.5)
+    diameter_m: float = 1.8  # Effective canopy diameter
+    cd: float = 1.5  # Drag coefficient of parachute canopy (hemispherical ~1.5)
     deployment_altitude_m: float = 400.0  # Altitude threshold for deployment (descent phase)
-    inflation_time_s: float = 1.2     # Time taken for canopy to reach full inflation
+    inflation_time_s: float = 1.2  # Time taken for canopy to reach full inflation
     state: ParachuteState = ParachuteState.STOWED
 
     @property
@@ -49,11 +51,13 @@ class Parachute:
 
         # Quadratic inflation progression
         fraction = min(1.0, max(0.0, deployment_timer_s / self.inflation_time_s))
-        return self.drag_area_cd_s * (fraction ** 2)
+        return self.drag_area_cd_s * (fraction**2)
 
 
 def default_drogue() -> Parachute:
-    return Parachute(name="Drogue Chute", diameter_m=0.45, cd=0.97, deployment_altitude_m=float("inf"), inflation_time_s=0.5)
+    return Parachute(
+        name="Drogue Chute", diameter_m=0.45, cd=0.97, deployment_altitude_m=float("inf"), inflation_time_s=0.5
+    )
 
 
 def default_main() -> Parachute:
@@ -67,10 +71,13 @@ class DualRecoverySystem:
     1. Drogue chute deploys at apogee to stabilize descent and prevent tumbling.
     2. Main chute deploys at a low altitude (e.g. 400m) to brake down to safe landing speed (< 7 m/s).
     """
+
     drogue: Parachute = field(default_factory=default_drogue)
     main: Parachute = field(default_factory=default_main)
 
-    def total_drag_area(self, altitude_m: float, is_descending: bool, drogue_timer_s: float, main_timer_s: float) -> float:
+    def total_drag_area(
+        self, altitude_m: float, is_descending: bool, drogue_timer_s: float, main_timer_s: float
+    ) -> float:
         """
         Calculates combined recovery drag area based on descent state and altitude.
         """

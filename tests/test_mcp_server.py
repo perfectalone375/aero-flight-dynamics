@@ -30,10 +30,7 @@ def test_mcp_tool_call_query_atmosphere():
         "jsonrpc": "2.0",
         "id": 3,
         "method": "tools/call",
-        "params": {
-            "name": "query_atmosphere",
-            "arguments": {"altitude_m": 10000.0}
-        }
+        "params": {"name": "query_atmosphere", "arguments": {"altitude_m": 10000.0}},
     }
     resp = process_message(msg)
     assert "result" in resp
@@ -47,10 +44,7 @@ def test_mcp_tool_call_evaluate_airfoil():
         "jsonrpc": "2.0",
         "id": 4,
         "method": "tools/call",
-        "params": {
-            "name": "evaluate_airfoil",
-            "arguments": {"designation": "0012", "alpha_deg": 0.0}
-        }
+        "params": {"name": "evaluate_airfoil", "arguments": {"designation": "0012", "alpha_deg": 0.0}},
     }
     resp = process_message(msg)
     content = json.loads(resp["result"]["content"][0]["text"])
@@ -63,10 +57,7 @@ def test_mcp_tool_call_evaluate_parachute():
         "jsonrpc": "2.0",
         "id": 5,
         "method": "tools/call",
-        "params": {
-            "name": "evaluate_parachute_recovery",
-            "arguments": {"vehicle_mass_kg": 40.0}
-        }
+        "params": {"name": "evaluate_parachute_recovery", "arguments": {"vehicle_mass_kg": 40.0}},
     }
     resp = process_message(msg)
     content = json.loads(resp["result"]["content"][0]["text"])
