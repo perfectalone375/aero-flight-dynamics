@@ -8,9 +8,10 @@ from enum import Enum
 
 class MotorBurnProfile(Enum):
     """Grain burning profiles for solid rocket motors."""
-    NEUTRAL = "neutral"          # Constant thrust
+
+    NEUTRAL = "neutral"  # Constant thrust
     PROGRESSIVE = "progressive"  # Thrust increases with burn time
-    REGRESSIVE = "regressive"    # Thrust decays with burn time
+    REGRESSIVE = "regressive"  # Thrust decays with burn time
     BOOST_SUSTAIN = "boost_sustain"  # High initial thrust followed by lower sustain
 
 
@@ -20,17 +21,18 @@ class SolidRocketMotor:
     Solid rocket motor model with time-dependent mass depletion and
     ambient pressure altitude compensation on specific impulse (Isp).
     """
+
     name: str = "Standard SRM"
-    dry_mass_kg: float = 15.0            # Motor casing, nozzle, hardware mass
-    propellant_mass_kg: float = 45.0     # Active solid propellant mass
-    burn_time_s: float = 6.0             # Total burn duration
-    isp_sea_level_s: float = 220.0       # Sea level specific impulse (seconds)
-    isp_vacuum_s: float = 250.0          # Vacuum specific impulse (seconds)
+    dry_mass_kg: float = 15.0  # Motor casing, nozzle, hardware mass
+    propellant_mass_kg: float = 45.0  # Active solid propellant mass
+    burn_time_s: float = 6.0  # Total burn duration
+    isp_sea_level_s: float = 220.0  # Sea level specific impulse (seconds)
+    isp_vacuum_s: float = 250.0  # Vacuum specific impulse (seconds)
     profile: MotorBurnProfile = MotorBurnProfile.NEUTRAL
 
     # Constants
-    G0: float = 9.80665                  # Gravitational acceleration (m/s^2)
-    P_SEA_LEVEL: float = 101325.0        # Reference sea-level atmospheric pressure (Pa)
+    G0: float = 9.80665  # Gravitational acceleration (m/s^2)
+    P_SEA_LEVEL: float = 101325.0  # Reference sea-level atmospheric pressure (Pa)
 
     @property
     def total_initial_mass_kg(self) -> float:
@@ -67,7 +69,7 @@ class SolidRocketMotor:
             consumed = self.propellant_mass_kg * fraction
         elif self.profile == MotorBurnProfile.PROGRESSIVE:
             # Quadratic growth in consumption
-            consumed = self.propellant_mass_kg * (fraction ** 1.5)
+            consumed = self.propellant_mass_kg * (fraction**1.5)
         elif self.profile == MotorBurnProfile.REGRESSIVE:
             # Slower consumption later
             consumed = self.propellant_mass_kg * (1.0 - (1.0 - fraction) ** 1.5)

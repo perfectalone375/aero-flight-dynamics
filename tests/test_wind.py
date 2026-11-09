@@ -20,11 +20,7 @@ def test_wind_boundary_layer_shear():
 
 
 def test_discrete_gust_activation():
-    wind = WindModel(
-        gust_amplitude_m_s=6.0,
-        gust_altitude_start_m=500.0,
-        gust_length_m=200.0
-    )
+    wind = WindModel(gust_amplitude_m_s=6.0, gust_altitude_start_m=500.0, gust_length_m=200.0)
 
     # Outside gust window: 0 gust speed
     assert wind.discrete_gust_speed(400.0) == 0.0
@@ -40,5 +36,5 @@ def test_wind_velocity_vector_magnitude():
     wx, wy, wz = wind.wind_velocity_vector(10.0)
 
     # Magnitude should match speed at 10m
-    speed = math.sqrt(wx ** 2 + wy ** 2 + wz ** 2)
+    speed = math.sqrt(wx**2 + wy**2 + wz**2)
     assert pytest.approx(speed, abs=1e-3) == 5.0

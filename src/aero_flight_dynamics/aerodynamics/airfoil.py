@@ -10,6 +10,7 @@ from typing import List, Tuple
 @dataclass
 class AirfoilGeometry:
     """Stores coordinate distribution of an airfoil."""
+
     x: List[float]
     y_upper: List[float]
     y_lower: List[float]
@@ -36,11 +37,11 @@ class NACA4Airfoil:
 
         # Parse digits
         # 1st digit: Max camber as percentage of chord
-        self.max_camber_m = (int(designation[0]) / 100.0)
+        self.max_camber_m = int(designation[0]) / 100.0
         # 2nd digit: Distance of max camber from leading edge in tenths of chord
-        self.max_camber_pos_p = (int(designation[1]) / 10.0)
+        self.max_camber_pos_p = int(designation[1]) / 10.0
         # 3rd & 4th digits: Max thickness as percentage of chord
-        self.thickness_ratio_t = (int(designation[2:]) / 100.0)
+        self.thickness_ratio_t = int(designation[2:]) / 100.0
 
     def thickness_distribution(self, x_c: float) -> float:
         """
@@ -54,12 +55,10 @@ class NACA4Airfoil:
         a3 = 0.2843
         a4 = -0.1015  # Closed trailing edge formulation -0.1036 or standard -0.1015
 
-        yt_c = 5.0 * self.thickness_ratio_t * (
-            a0 * math.sqrt(x_c)
-            + a1 * x_c
-            + a2 * (x_c ** 2)
-            + a3 * (x_c ** 3)
-            + a4 * (x_c ** 4)
+        yt_c = (
+            5.0
+            * self.thickness_ratio_t
+            * (a0 * math.sqrt(x_c) + a1 * x_c + a2 * (x_c**2) + a3 * (x_c**3) + a4 * (x_c**4))
         )
         return yt_c
 
@@ -76,10 +75,10 @@ class NACA4Airfoil:
             return 0.0, 0.0
 
         if x_c < p:
-            yc_c = (m / (p ** 2)) * (2 * p * x_c - (x_c ** 2))
-            dyc_dx = (2 * m / (p ** 2)) * (p - x_c)
+            yc_c = (m / (p**2)) * (2 * p * x_c - (x_c**2))
+            dyc_dx = (2 * m / (p**2)) * (p - x_c)
         else:
-            yc_c = (m / ((1.0 - p) ** 2)) * ((1.0 - 2 * p) + 2 * p * x_c - (x_c ** 2))
+            yc_c = (m / ((1.0 - p) ** 2)) * ((1.0 - 2 * p) + 2 * p * x_c - (x_c**2))
             dyc_dx = (2 * m / ((1.0 - p) ** 2)) * (p - x_c)
 
         return yc_c, dyc_dx

@@ -54,7 +54,7 @@ def test_aero_coefficients_prandtl_glauert_compressibility():
     cl_mach_06 = aero.lift_coefficient(alpha_rad, mach=0.6)
 
     # Compressibility increases lift curve slope by 1 / sqrt(1 - M^2)
-    expected_factor = 1.0 / math.sqrt(1.0 - 0.6 ** 2)  # 1 / 0.8 = 1.25
+    expected_factor = 1.0 / math.sqrt(1.0 - 0.6**2)  # 1 / 0.8 = 1.25
     assert pytest.approx(cl_mach_06 / cl_incompressible, rel=1e-3) == expected_factor
 
 

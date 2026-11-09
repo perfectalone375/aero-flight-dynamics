@@ -100,7 +100,7 @@ def handle_simulate(args: argparse.Namespace) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(
         prog="aeroflight",
-        description="aero_flight_dynamics: Open-source aerospace flight dynamics & telemetry toolkit."
+        description="aero_flight_dynamics: Open-source aerospace flight dynamics & telemetry toolkit.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -118,7 +118,9 @@ def main() -> None:
     p_sim = subparsers.add_parser("simulate", help="Run 3-DoF rocket/vehicle trajectory simulation.")
     p_sim.add_argument("--name", type=str, default="AeroProbe-1", help="Vehicle mission name")
     p_sim.add_argument("--dry-mass", type=float, default=40.0, help="Dry mass in kg (default: 40.0)")
-    p_sim.add_argument("--propellant-mass", type=float, default=60.0, help="Solid propellant mass in kg (default: 60.0)")
+    p_sim.add_argument(
+        "--propellant-mass", type=float, default=60.0, help="Solid propellant mass in kg (default: 60.0)"
+    )
     p_sim.add_argument("--burn-time", type=float, default=8.0, help="Burn duration in seconds (default: 8.0)")
     p_sim.add_argument("--isp", type=float, default=230.0, help="Sea-level specific impulse in seconds")
     p_sim.add_argument("--area", type=float, default=0.045, help="Aerodynamic reference area S in m^2")

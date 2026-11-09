@@ -15,6 +15,7 @@ class FlightState:
     z: altitude above sea level (meters)
     vx, vy, vz: velocity components (m/s)
     """
+
     time_s: float = 0.0
     x_m: float = 0.0
     y_m: float = 0.0
@@ -37,18 +38,18 @@ class FlightState:
     @property
     def speed_m_s(self) -> float:
         """Total scalar velocity magnitude."""
-        return math.sqrt(self.vx_m_s ** 2 + self.vy_m_s ** 2 + self.vz_m_s ** 2)
+        return math.sqrt(self.vx_m_s**2 + self.vy_m_s**2 + self.vz_m_s**2)
 
     @property
     def flight_path_angle_rad(self) -> float:
         """Flight path angle gamma = atan2(vz, sqrt(vx^2 + vy^2))."""
-        v_horiz = math.sqrt(self.vx_m_s ** 2 + self.vy_m_s ** 2)
+        v_horiz = math.sqrt(self.vx_m_s**2 + self.vy_m_s**2)
         return math.atan2(self.vz_m_s, v_horiz)
 
     @property
     def total_acceleration_m_s2(self) -> float:
         """Total scalar acceleration magnitude."""
-        return math.sqrt(self.ax_m_s2 ** 2 + self.ay_m_s2 ** 2 + self.az_m_s2 ** 2)
+        return math.sqrt(self.ax_m_s2**2 + self.ay_m_s2**2 + self.az_m_s2**2)
 
     @property
     def g_load(self) -> float:

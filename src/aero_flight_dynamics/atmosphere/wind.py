@@ -13,13 +13,14 @@ class WindModel:
     """
     Parametric wind shear and discrete gust model.
     """
-    surface_wind_speed_m_s: float = 3.0   # Wind speed at reference altitude (m/s)
-    reference_altitude_m: float = 10.0    # Reference anemometer altitude (m)
-    shear_exponent: float = 0.14          # Atmospheric boundary layer power-law exponent
-    wind_azimuth_deg: float = 270.0       # Wind direction from which wind blows (degrees)
-    gust_amplitude_m_s: float = 5.0       # Peak gust velocity amplitude (m/s)
+
+    surface_wind_speed_m_s: float = 3.0  # Wind speed at reference altitude (m/s)
+    reference_altitude_m: float = 10.0  # Reference anemometer altitude (m)
+    shear_exponent: float = 0.14  # Atmospheric boundary layer power-law exponent
+    wind_azimuth_deg: float = 270.0  # Wind direction from which wind blows (degrees)
+    gust_amplitude_m_s: float = 5.0  # Peak gust velocity amplitude (m/s)
     gust_altitude_start_m: float = 300.0  # Altitude where discrete gust initiates (m)
-    gust_length_m: float = 200.0          # Spatial wavelength of "1 - cosine" gust (m)
+    gust_length_m: float = 200.0  # Spatial wavelength of "1 - cosine" gust (m)
 
     def mean_wind_speed(self, altitude_m: float) -> float:
         """

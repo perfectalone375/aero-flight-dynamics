@@ -17,29 +17,29 @@ class USStandardAtmosphere1976:
     """
 
     # Physical constants
-    R_EARTH: float = 6356766.0      # Earth radius in meters
-    G0: float = 9.80665              # Standard gravity at sea level (m/s^2)
-    R_SPECIFIC_AIR: float = 287.05287 # Specific gas constant for air (J/(kg*K))
-    GAMMA: float = 1.4               # Ratio of specific heats
-    SUTHERLAND_S: float = 110.4      # Sutherland constant (K)
-    SUTHERLAND_BETA: float = 1.458e-6 # Sutherland coefficient (kg/(m*s*K^0.5))
+    R_EARTH: float = 6356766.0  # Earth radius in meters
+    G0: float = 9.80665  # Standard gravity at sea level (m/s^2)
+    R_SPECIFIC_AIR: float = 287.05287  # Specific gas constant for air (J/(kg*K))
+    GAMMA: float = 1.4  # Ratio of specific heats
+    SUTHERLAND_S: float = 110.4  # Sutherland constant (K)
+    SUTHERLAND_BETA: float = 1.458e-6  # Sutherland coefficient (kg/(m*s*K^0.5))
 
     # Sea-level reference parameters
-    T0: float = 288.15               # Sea level temperature (K)
-    P0: float = 101325.0             # Sea level pressure (Pa)
-    RHO0: float = 1.2250             # Sea level density (kg/m^3)
+    T0: float = 288.15  # Sea level temperature (K)
+    P0: float = 101325.0  # Sea level pressure (Pa)
+    RHO0: float = 1.2250  # Sea level density (kg/m^3)
 
     # Defined geopotential altitude boundaries (meters) and lapse rates (K/m)
     # [(H_base, lapse_rate)]
     LAYERS: List[Tuple[float, float]] = [
-        (0.0, -0.0065),      # Troposphere
-        (11000.0, 0.0),      # Tropopause
-        (20000.0, 0.0010),   # Stratosphere layer 1
-        (32000.0, 0.0028),   # Stratosphere layer 2
-        (47000.0, 0.0),      # Stratopause
+        (0.0, -0.0065),  # Troposphere
+        (11000.0, 0.0),  # Tropopause
+        (20000.0, 0.0010),  # Stratosphere layer 1
+        (32000.0, 0.0028),  # Stratosphere layer 2
+        (47000.0, 0.0),  # Stratopause
         (51000.0, -0.0028),  # Mesosphere layer 1
         (71000.0, -0.0020),  # Mesosphere layer 2
-        (84852.0, 0.0),      # Mesopause boundary
+        (84852.0, 0.0),  # Mesopause boundary
     ]
 
     def __init__(self) -> None:
@@ -94,7 +94,7 @@ class USStandardAtmosphere1976:
             p = self._layer_p_base[-1] * math.exp(-self.G0 * dh / (self.R_SPECIFIC_AIR * t))
             rho = p / (self.R_SPECIFIC_AIR * t)
             a = math.sqrt(self.GAMMA * self.R_SPECIFIC_AIR * t)
-            mu = (self.SUTHERLAND_BETA * (t ** 1.5)) / (t + self.SUTHERLAND_S)
+            mu = (self.SUTHERLAND_BETA * (t**1.5)) / (t + self.SUTHERLAND_S)
             return AtmosphericState(
                 altitude_m=altitude_m,
                 geopotential_altitude_m=h_geopotential,
@@ -133,7 +133,7 @@ class USStandardAtmosphere1976:
         a = math.sqrt(self.GAMMA * self.R_SPECIFIC_AIR * t)
 
         # Sutherland's law for dynamic viscosity
-        mu = (self.SUTHERLAND_BETA * (t ** 1.5)) / (t + self.SUTHERLAND_S)
+        mu = (self.SUTHERLAND_BETA * (t**1.5)) / (t + self.SUTHERLAND_S)
 
         return AtmosphericState(
             altitude_m=altitude_m,
