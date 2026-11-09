@@ -30,3 +30,4 @@ y_{n+1} &= y_n + \frac{\Delta t}{6} (k_1 + 2k_2 + 2k_3 + k_4)
 - **Positive:** Deterministic execution time, zero external runtime solver dependencies (pure NumPy/Python), and exact phase space energy conservation during high-speed atmospheric flight.
 - **Positive:** Uniform sampling cadence ideal for real-time telemetry streaming and downstream MCP tool serialization.
 - **Negative:** During long vacuum orbital coast periods, fixed time-stepping executes redundant evaluations compared to adaptive integrators.
+
